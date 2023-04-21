@@ -10,5 +10,6 @@ git clone https://github.com/dawsonc/bootstrap.git
 
 # Run the dotfiles installation and setup scripts
 cd ~/dotfiles
+chmod +x ./scripts/*
 ./scripts/install.sh
 ./scripts/setup_dotfiles.sh
