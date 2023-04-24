@@ -31,3 +31,7 @@ sudo apt install neovim
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install -y ./google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
+
+# Install obsidian
+wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.1.16/obsidian_1.1.16_amd64.snap -O /tmp/obsidian.snap
+snap install /tmp/obsidian.snap --dangerous --classic
