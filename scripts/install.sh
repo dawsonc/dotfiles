@@ -10,7 +10,7 @@ sudo apt install -y \
 
 # Install the GitHub CLI tool
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-sudo apt-add-repository https://cli.github.com/packages
+sudo apt-add-repository -y https://cli.github.com/packages
 sudo apt update
 sudo apt install -y gh
 
@@ -25,7 +25,7 @@ sudo apt update
 sudo apt install code
 
 # Install neovim
-sudo apt install neovim
+sudo apt install -y neovim
 
 # Install chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
