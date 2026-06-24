@@ -6,7 +6,11 @@ sudo apt install -y \
     build-essential \
     python3 \
     python3-pip \
-    python3-venv
+    python3-venv \
+    curl
+
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install the GitHub CLI tool
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
@@ -24,14 +28,37 @@ sudo apt install apt-transport-https
 sudo apt update
 sudo apt install code
 
-# Install neovim
-sudo apt install -y neovim
-
-# Install chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install -y ./google-chrome-stable_current_amd64.deb
-rm google-chrome-stable_current_amd64.deb
-
 # Install obsidian
-wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.1.16/obsidian_1.1.16_amd64.snap -O /tmp/obsidian.snap
-snap install /tmp/obsidian.snap --dangerous --classic
+wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/obsidian_1.12.7_amd64.deb -O /tmp/obsidian.deb
+sudo apt update
+sudo apt install /tmp/obsidian.deb -y
+
+# Install zsh + the modern CLI tool stack.
+# NOTE: on Ubuntu the `bat` package installs the binary as `batcat` and
+# `fd-find` installs it as `fdfind`; setup_dotfiles.sh creates `bat`/`fd`
+# shims so the aliases in .zshrc work.
+sudo apt update
+sudo apt install -y zsh fzf ripgrep bat fd-find zoxide
+
+# eza (modern ls) is not in the default apt repos; add its official repo.
+sudo mkdir -p /etc/apt/keyrings
+wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" \
+    | sudo tee /etc/apt/sources.list.d/gierens.list
+sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+sudo apt update
+sudo apt install -y eza
+
+# starship (prompt) has no official apt repo; use its official installer.
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+# Make zsh the default login shell.
+chsh -s "$(command -v zsh)" "$USER"
+
+# ---- Coding agents ----
+# Claude Code (installs to ~/.local/bin, already on PATH via .zprofile).
+curl -fsSL https://claude.ai/install.sh | bash
+
+# pi
+curl -fsSL https://pi.dev/install.sh | sh
