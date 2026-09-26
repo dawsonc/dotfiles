@@ -23,8 +23,16 @@ fi
 
 # ---- Default tools ------------------------------------------
 # Used by git, many CLI tools, and the VS Code terminal.
-export EDITOR="code --wait"
-export VISUAL="code --wait"
+# Falls back to a terminal editor where VS Code isn't installed
+# (e.g. a headless server over plain ssh).
+if command -v code >/dev/null 2>&1; then
+  export EDITOR="code --wait"
+elif command -v vim >/dev/null 2>&1; then
+  export EDITOR="vim"
+else
+  export EDITOR="nano"
+fi
+export VISUAL="$EDITOR"
 
 # ---- ripgrep defaults ---------------------------------------
 # Make rg respect .gitignore and be friendlier by default.

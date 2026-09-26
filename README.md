@@ -8,6 +8,15 @@ To run on a fresh install:
 wget https://raw.githubusercontent.com/dawsonc/dotfiles/main/bootstrap.sh -O - | bash
 ```
 
+For a headless machine (e.g. a dev server), pass `--headless` to skip GUI apps
+(VS Code, Obsidian):
+
+```
+wget https://raw.githubusercontent.com/dawsonc/dotfiles/main/bootstrap.sh -O - | bash -s -- --headless
+```
+
+Or from a checkout: `./scripts/install.sh --headless` (or `HEADLESS=1 ./scripts/install.sh`).
+
 ## Shell setup
 
 `scripts/install.sh` installs **zsh** plus a modern CLI tool stack and makes zsh

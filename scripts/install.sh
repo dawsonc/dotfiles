@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Usage: install.sh [--headless]
+#   --headless (or HEADLESS=1): skip GUI apps (VS Code, Obsidian), e.g. on a dev server.
+HEADLESS="${HEADLESS:-0}"
+for arg in "$@"; do
+    case "$arg" in
+        --headless) HEADLESS=1 ;;
+    esac
+done
+
 # Install basic development tools
 sudo apt install -y \
     git \
@@ -7,7 +16,9 @@ sudo apt install -y \
     python3 \
     python3-pip \
     python3-venv \
-    curl
+    curl \
+    wget \
+    gpg
 
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -17,6 +28,9 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 sudo apt-add-repository -y https://cli.github.com/packages
 sudo apt update
 sudo apt install -y gh
+
+# ---- GUI apps (skipped in headless mode) ----
+if [ "$HEADLESS" != 1 ]; then
 
 # Install VS Code
 sudo apt-get install wget gpg
@@ -32,6 +46,8 @@ sudo apt install code
 wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/obsidian_1.12.7_amd64.deb -O /tmp/obsidian.deb
 sudo apt update
 sudo apt install /tmp/obsidian.deb -y
+
+fi
 
 # Install zsh + the modern CLI tool stack.
 # NOTE: on Ubuntu the `bat` package installs the binary as `batcat` and
